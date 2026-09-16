@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#fbeef0" />
+  <title>For Appy 🤍</title>
+  <meta name="description" content="Something I made for you." />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+
+  <!-- Fonts: one elegant display + one clean modern -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css?v=7" />
+</head>
+<body>
+
+  <!-- ===== Ambient background (very subtle, decorative) ===== -->
+  <div class="bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <div class="petals" id="petals"></div>
+  </div>
+
+  <!-- ===== Music control ===== -->
+  <button id="musicBtn" class="music-btn" type="button" aria-pressed="false"
+          aria-label="Play background music" title="Music">
+    <svg class="music-ico" viewBox="0 0 24 24" aria-hidden="true">
+      <path class="note" d="M9 17.5V6.2l9-1.8v9.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="note" cx="6.5" cy="17.5" r="2.6" fill="currentColor"/>
+      <circle class="note" cx="15.5" cy="15.5" r="2.6" fill="currentColor"/>
+      <line class="slash" x1="4" y1="20.5" x2="20" y2="3.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <span class="music-eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+
+  <!-- ===== Progress dots ===== -->
+  <nav class="progress" id="progress" aria-label="Progress" hidden></nav>
+
+  <main id="app">
+
+    <!-- ============ STAGE 1 — ENTRY ============ -->
+    <section class="stage stage--entry is-active" id="stage-entry" aria-label="Start">
+      <div class="stage-inner">
+        <p class="eyebrow reveal" data-d="0">Hey you. <span class="wink">👀</span></p>
+        <h1 class="display reveal" data-d="1">I made something<br/>for you.</h1>
+        <p class="lede reveal" data-d="2">But <span class="soft">pehle ek chhota sa rule hai.</span></p>
+        <ul class="rules reveal" data-d="3">
+          <li>No skipping.</li>
+          <li>No cheating.</li>
+          <li>Aur haan… end tak jaana <em>compulsory</em> hai. 😌</li>
+        </ul>
+        <button class="btn btn--primary reveal" data-d="4" data-next type="button">
+          Okay, let's see <span aria-hidden="true">👀</span>
+        </button>
+        <p class="tiny-hint reveal" data-d="5">(headphones on kar lena, thoda better lagega 🎧)</p>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 2 — FUNNY INTERACTION ============ -->
+    <section class="stage stage--funny" id="stage-funny" aria-label="A quick question" hidden>
+      <div class="stage-inner">
+        <p class="eyebrow">Ek important question…</p>
+        <h2 class="display display--sm">Sacch batao —<br/>who is more cute?</h2>
+        <div class="choice-row">
+          <!-- The "wrong" one runs away / protests -->
+          <button class="btn btn--ghost runaway" id="funnyWrong" type="button">Me 😎</button>
+          <button class="btn btn--primary" id="funnyRight" type="button">Obviously you 🙄</button>
+        </div>
+        <p class="quip" id="funnyQuip" aria-live="polite">&nbsp;</p>
+        <button class="btn btn--primary continue" id="funnyContinue" type="button" hidden data-next>
+          Theek hai, aage chalein →
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 3 — LITTLE LOVE QUIZ ============ -->
+    <section class="stage stage--quiz" id="stage-quiz" aria-label="A little quiz" hidden>
+      <div class="stage-inner">
+        <p class="eyebrow">Let's see kitna yaad hai…</p>
+        <div class="quiz-card">
+          <div class="quiz-progress"><span id="quizCount">1 / 4</span></div>
+          <h2 class="quiz-q" id="quizQuestion" aria-live="polite">…</h2>
+          <div class="quiz-options" id="quizOptions"></div>
+          <p class="quiz-react" id="quizReact" aria-live="polite"></p>
+          <button class="btn btn--primary continue" id="quizNext" type="button" hidden>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 4 — PHOTO MEMORY WALL ============ -->
+    <section class="stage stage--wall" id="stage-wall" aria-label="Our memories" hidden>
+      <div class="stage-inner stage-inner--wide">
+        <p class="eyebrow">Thoda scroll karo…</p>
+        <h2 class="display display--sm">Kuch moments,<br/>jo yaad reh gaye.</h2>
+        <p class="lede">Har photo pe tap karo — chhoti si kahani hai peeche. 🤍</p>
+        <div class="wall" id="wall"></div>
+        <button class="btn btn--primary continue" type="button" data-next>Aur bhi kuch hai →</button>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 5 — THINGS I LIKE ABOUT YOU ============ -->
+    <section class="stage stage--reasons" id="stage-reasons" aria-label="Things I like about you" hidden>
+      <div class="stage-inner">
+        <p class="eyebrow">Ab thoda serious… (thoda hi)</p>
+        <h2 class="display display--sm">Things I actually<br/>like about you.</h2>
+        <div class="reasons" id="reasons"></div>
+        <button class="btn btn--primary continue" id="reasonsNext" type="button" hidden data-next>
+          Okay, ab asli baat →
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 6 — THE LETTER ============ -->
+    <section class="stage stage--letter" id="stage-letter" aria-label="A letter for you" hidden>
+      <div class="stage-inner">
+        <p class="eyebrow">Okay, jokes apart…</p>
+        <article class="letter">
+          <p class="letter-text" id="letterText"></p>
+          <span class="letter-caret" id="letterCaret" aria-hidden="true"></span>
+        </article>
+        <div class="letter-actions">
+          <button class="btn btn--ghost" id="letterSkip" type="button">Skip typing</button>
+          <button class="btn btn--primary continue" id="letterNext" type="button" hidden data-next>
+            …
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 7 — BIRTHDAY REVEAL ============ -->
+    <section class="stage stage--birthday" id="stage-birthday" aria-label="Happy Birthday" hidden>
+      <div class="stage-inner">
+        <p class="eyebrow reveal-b" data-d="0">And finally…</p>
+        <p class="date-big reveal-b" data-d="1">20 September <span aria-hidden="true">❤️</span></p>
+        <h2 class="hbd reveal-b" data-d="2">Happy Birthday,<br/><span id="hbdName">Appy</span></h2>
+        <p class="lede reveal-b" data-d="3" id="hbdAge"></p>
+        <p class="wish reveal-b" data-d="4">
+          I hope this year gives you more reasons to smile,<br/>
+          more moments worth remembering,<br/>
+          aur bahut saari chhoti chhoti cheezein jo tumhe khush karti hain. 🤍
+        </p>
+        <button class="btn btn--primary reveal-b" data-d="5" id="birthdayNext" type="button" data-next>
+          One last thing… <span aria-hidden="true">🎁</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 8 — FINAL SURPRISE ============ -->
+    <section class="stage stage--surprise" id="stage-surprise" aria-label="One last surprise" hidden>
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+      <div class="stage-inner">
+
+        <!-- Part A: the tease -->
+        <div id="surpriseTease">
+          <p class="eyebrow">P.S.</p>
+          <h2 class="display display--sm">Tumhe laga content<br/>khatam ho gaya?</h2>
+          <p class="lede">Not so fast. 😏</p>
+          <button class="btn btn--primary" id="surpriseBtn" type="button">One last surprise 🤍</button>
+        </div>
+
+        <!-- Part B: the reveal (hidden until clicked) -->
+        <div id="surpriseReveal" hidden>
+          <figure class="surprise-photo">
+            <img src="assets/photos/surprise.jpg" alt="A little surprise, just for you" loading="lazy" />
+          </figure>
+          <p class="secret-note" id="secretNote"></p>
+
+          <!-- The inside joke — hidden little easter egg -->
+          <details class="easter">
+            <summary>Ek aur cheez… (open karo 👀)</summary>
+            <p class="titli" id="titliJoke"></p>
+          </details>
+
+          <p class="signoff" id="signoff"></p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js?v=7"></script>
+</body>
+</html>
